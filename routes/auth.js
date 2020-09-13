@@ -74,7 +74,9 @@ body('email', 'Please include a valid email').isEmail(),
             res.status(500).json({ token });
           }
         );
-      } catch (error) {}
+      } catch (error) {
+        res.status(500).send('Server Error');
+      }
     }
   );
 
