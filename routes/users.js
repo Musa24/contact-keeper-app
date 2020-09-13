@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
 //Express validator
 const { body, validationResult } = require('express-validator');
+
+// Loading Model
+const User = require('../models/User');
 
 //@route           POST      api/user
 // @desc           Register a User
@@ -44,7 +46,6 @@ router.post(
       });
 
       //encrypting the password
-
       const salt = await bcrypt.genSaltSync(10);
       user.password = await bcrypt.hash(password, salt);
 
