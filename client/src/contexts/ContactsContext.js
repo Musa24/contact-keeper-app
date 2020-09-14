@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, Component } from 'react';
 
 export const ContactsContext = createContext();
 
@@ -7,23 +7,23 @@ class ContactsContextProvider extends Component {
     contacts: [
       {
         id: 1,
-        name: 'Musa',
+        name: 'Musa Salumu',
         email: 'test@gmail.com',
-        phone: 111 - 111 - 111,
+        phone: 12232434,
         type: 'personal',
       },
       {
         id: 2,
         name: 'Musalumu',
         email: 'test1@gmail.com',
-        phone: 222 - 111 - 111,
+        phone: 22212121,
         type: 'proffesional',
       },
       {
         id: 3,
         name: 'Muhozya',
         email: 'test2@gmail.com',
-        phone: 222 - 222 - 111,
+        phone: 122344,
         type: 'personal',
       },
     ],

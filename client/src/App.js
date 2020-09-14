@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import ContactsContextProvider from './contexts/ContactsContext';
+import Contacts from './contacts/Contacts';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Router>
         <Fragment>
           <Navbar />
+
           <div className="container">
             <Switch>
               <Route exact path="/" component={Home} />
