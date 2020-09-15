@@ -27,6 +27,7 @@ class ContactsContextProvider extends Component {
         type: 'personal',
       },
     ],
+    current: null,
   };
 
   addContact = (contact) => {
@@ -42,6 +43,16 @@ class ContactsContextProvider extends Component {
     });
   };
 
+  setCurrent = (contact) => {
+    this.setState({
+      current: contact,
+    });
+  };
+
+  clearCurrent = () => {
+    this.setState({ current: null });
+  };
+
   render() {
     return (
       <ContactsContext.Provider
@@ -49,6 +60,8 @@ class ContactsContextProvider extends Component {
           ...this.state,
           addContact: this.addContact,
           deleteContact: this.deleteContact,
+          setCurrent: this.setCurrent,
+          clearCurrent: this.clearCurrent,
         }}
       >
         {this.props.children}
