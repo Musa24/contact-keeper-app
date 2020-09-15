@@ -1,5 +1,5 @@
 import React, { createContext, Component } from 'react';
-
+import { v4 as uuidv4 } from 'uuid';
 export const ContactsContext = createContext();
 
 class ContactsContextProvider extends Component {
@@ -17,7 +17,7 @@ class ContactsContextProvider extends Component {
         name: 'Musalumu',
         email: 'test1@gmail.com',
         phone: 22212121,
-        type: 'proffesional',
+        type: 'professional',
       },
       {
         id: 3,
@@ -28,9 +28,20 @@ class ContactsContextProvider extends Component {
       },
     ],
   };
+
+  addContact = (contact) => {
+    contact.id = uuidv4();
+    this.setState((oldState) => {
+      return { contacts: [...oldState.contacts, contact] };
+      // console.log('OldState', oldState.contacts);
+    });
+  };
+
   render() {
     return (
-      <ContactsContext.Provider value={{ ...this.state }}>
+      <ContactsContext.Provider
+        value={{ ...this.state, addContact: this.addContact }}
+      >
         {this.props.children}
       </ContactsContext.Provider>
     );
