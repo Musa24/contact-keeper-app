@@ -53,6 +53,13 @@ class ContactsContextProvider extends Component {
     this.setState({ current: null });
   };
 
+  updateContact = (contact) => {
+    let updatedContact = this.state.contacts.map((oldContact) =>
+      oldContact.id === contact.id ? contact : oldContact
+    );
+    this.setState({ contacts: updatedContact });
+  };
+
   render() {
     return (
       <ContactsContext.Provider
@@ -62,6 +69,7 @@ class ContactsContextProvider extends Component {
           deleteContact: this.deleteContact,
           setCurrent: this.setCurrent,
           clearCurrent: this.clearCurrent,
+          updateContact: this.updateContact,
         }}
       >
         {this.props.children}
