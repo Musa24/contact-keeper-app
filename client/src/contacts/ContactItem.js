@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { ContactsContext } from '../contexts/ContactsContext';
 
 function ContactItem({ contact }) {
+  const { deleteContact } = useContext(ContactsContext);
   const { id, name, email, phone, type } = contact;
+
+  // Deleting an Item
+  const handleDelete = (e) => {
+    e.preventDefault();
+    deleteContact(id);
+  };
 
   return (
     <div className="card bg-light">
@@ -31,7 +39,9 @@ function ContactItem({ contact }) {
       </ul>
       <p>
         <button className="btn btn-dark btn-sm">Edit</button>
-        <button className="btn btn-danger btn-sm">Delete</button>
+        <button className="btn btn-danger btn-sm" onClick={handleDelete}>
+          Delete
+        </button>
       </p>
     </div>
   );

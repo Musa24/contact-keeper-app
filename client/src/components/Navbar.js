@@ -5,7 +5,8 @@ function Navbar() {
   return (
     <div className="navbar bg-primary">
       <h1>
-        <i className="fas fa-id-card-alt"></i> Contact Keeper
+        <i className="fas fa-id-card-alt"></i>
+        <Link to="/">Contact Keeper</Link>
       </h1>
       <ul>
         <li>

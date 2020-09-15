@@ -33,14 +33,23 @@ class ContactsContextProvider extends Component {
     contact.id = uuidv4();
     this.setState((oldState) => {
       return { contacts: [...oldState.contacts, contact] };
-      // console.log('OldState', oldState.contacts);
+    });
+  };
+
+  deleteContact = (id) => {
+    this.setState({
+      contacts: this.state.contacts.filter((contact) => contact.id !== id),
     });
   };
 
   render() {
     return (
       <ContactsContext.Provider
-        value={{ ...this.state, addContact: this.addContact }}
+        value={{
+          ...this.state,
+          addContact: this.addContact,
+          deleteContact: this.deleteContact,
+        }}
       >
         {this.props.children}
       </ContactsContext.Provider>
