@@ -2,6 +2,7 @@ import React from 'react';
 import ContactFilterForm from '../contacts/ContactFilterForm';
 import ContactForm from '../contacts/ContactForm';
 import Contacts from '../contacts/Contacts';
+import Register from './auth/Register';
 
 function Home() {
   return (
