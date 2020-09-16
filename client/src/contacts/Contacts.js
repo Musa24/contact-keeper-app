@@ -9,6 +9,7 @@ function Contacts() {
   if (contacts.length === 0) {
     return <h4>Please add Contacts</h4>;
   }
+
   return (
     <Fragment>
       <TransitionGroup>

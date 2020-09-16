@@ -1,11 +1,16 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ContactsContext } from '../contexts/ContactsContext';
+import { AlertContext } from '../contexts/AlertContext';
 
 function ContactItem({ contact }) {
   const { deleteContact, setCurrent, clearCurrent } = useContext(
     ContactsContext
   );
+
+  //This
+  const { setAlert } = useContext(AlertContext);
+
   const { id, name, email, phone, type } = contact;
 
   // Deleting an Item
@@ -17,6 +22,7 @@ function ContactItem({ contact }) {
   };
   const handleEdit = () => {
     setCurrent(contact);
+    setAlert('This is message', 'light', 5000);
   };
   return (
     <div className="card bg-light">

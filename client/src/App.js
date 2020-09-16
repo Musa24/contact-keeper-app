@@ -11,29 +11,33 @@ import Contacts from './contacts/Contacts';
 import AuthContextProvider from './contexts/AuthContext';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import AlertContextProvider from './contexts/AlertContext';
+import Alert from './components/Alert';
 
 function App() {
   return (
     <AuthContextProvider>
       <ContactsContextProvider>
-        <Router>
-          <Fragment>
-            <Navbar />
-
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/about" component={About} />
-                <Route path="/register" exact>
-                  <Register />
-                </Route>
-                <Route path="/login" exact>
-                  <Login />
-                </Route>
-              </Switch>
-            </div>
-          </Fragment>
-        </Router>
+        <AlertContextProvider>
+          <Router>
+            <Fragment>
+              <Navbar />
+              <div className="container">
+                <Alert />
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/about" component={About} />
+                  <Route path="/register" exact>
+                    <Register />
+                  </Route>
+                  <Route path="/login" exact>
+                    <Login />
+                  </Route>
+                </Switch>
+              </div>
+            </Fragment>
+          </Router>
+        </AlertContextProvider>
       </ContactsContextProvider>
     </AuthContextProvider>
   );
