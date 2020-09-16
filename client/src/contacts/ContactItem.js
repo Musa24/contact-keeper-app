@@ -10,6 +10,7 @@ function ContactItem({ contact }) {
 
   // Deleting an Item
   const handleDelete = (e) => {
+    console.log('Deleting');
     e.preventDefault();
     deleteContact(id);
     clearCurrent();

@@ -1,4 +1,5 @@
 import React from 'react';
+import ContactFilterForm from '../contacts/ContactFilterForm';
 import ContactForm from '../contacts/ContactForm';
 import Contacts from '../contacts/Contacts';
 
@@ -9,6 +10,7 @@ function Home() {
         <ContactForm />
       </div>
       <div>
+        <ContactFilterForm />
         <Contacts />
       </div>
     </div>

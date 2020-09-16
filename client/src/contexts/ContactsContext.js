@@ -28,6 +28,7 @@ class ContactsContextProvider extends Component {
       },
     ],
     current: null,
+    filtered: null,
   };
 
   addContact = (contact) => {
@@ -41,6 +42,11 @@ class ContactsContextProvider extends Component {
     this.setState({
       contacts: this.state.contacts.filter((contact) => contact.id !== id),
     });
+    if (this.state.filtered !== null) {
+      this.setState({
+        filtered: this.state.filtered.filter((contact) => contact.id !== id),
+      });
+    }
   };
 
   setCurrent = (contact) => {
@@ -49,15 +55,41 @@ class ContactsContextProvider extends Component {
     });
   };
 
-  clearCurrent = () => {
-    this.setState({ current: null });
-  };
-
   updateContact = (contact) => {
     let updatedContact = this.state.contacts.map((oldContact) =>
       oldContact.id === contact.id ? contact : oldContact
     );
-    this.setState({ contacts: updatedContact });
+    let updatedFilteredContact = this.state.contacts.map((oldContact) =>
+      oldContact.id === contact.id ? contact : oldContact
+    );
+    this.setState(
+      {
+        contacts: updatedContact,
+        filtered: updatedFilteredContact,
+      },
+      () => {
+        this.clearCurrent();
+      }
+    );
+  };
+
+  clearCurrent = () => {
+    this.setState({ current: null });
+  };
+
+  filterContact = (text) => {
+    let filterContacts = this.state.contacts.filter((contact) => {
+      const regex = new RegExp(`${text}`, 'gi');
+      return contact.name.match(regex) || contact.email.match(regex);
+    });
+
+    this.setState({ filtered: filterContacts });
+  };
+
+  clearFilter = () => {
+    {
+      this.setState({ filtered: null });
+    }
   };
 
   render() {
@@ -70,6 +102,8 @@ class ContactsContextProvider extends Component {
           setCurrent: this.setCurrent,
           clearCurrent: this.clearCurrent,
           updateContact: this.updateContact,
+          filterContact: this.filterContact,
+          clearFilter: this.clearFilter,
         }}
       >
         {this.props.children}
