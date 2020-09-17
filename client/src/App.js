@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import './App.css';
 import Navbar from './components/Navbar';
@@ -13,6 +13,11 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import AlertContextProvider from './contexts/AlertContext';
 import Alert from './components/Alert';
+import setAuthToken from './utility/authToken';
+
+// if (localStorage.token) {
+//   setAuthToken(localStorage.token);
+// }
 
 function App() {
   return (

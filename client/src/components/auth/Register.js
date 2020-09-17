@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { AlertContext } from '../../contexts/AlertContext';
 import { AuthContext } from '../../contexts/AuthContext';
 
 function Register() {
+  const history = useHistory();
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -11,15 +13,21 @@ function Register() {
   });
 
   const { setAlert } = useContext(AlertContext);
-  const { register, error, clearError } = useContext(AuthContext);
+  const { register, error, clearError, isAuthenticated } = useContext(
+    AuthContext
+  );
   const { name, email, password, password2 } = user;
 
   useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/');
+    }
+
     if (error === 'User already exists') {
       setAlert(error, 'danger');
       clearError();
     }
-  }, [error]);
+  }, [error, isAuthenticated]);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });

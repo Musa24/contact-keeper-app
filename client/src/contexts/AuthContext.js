@@ -1,5 +1,7 @@
 import React, { Component, createContext } from 'react';
 import axios from 'axios';
+import setAuthToken from '../utility/authToken';
+
 export const AuthContext = createContext();
 
 class AuthContextProvider extends Component {
@@ -21,13 +23,16 @@ class AuthContextProvider extends Component {
 
     try {
       const res = await axios.post('/api/users', formInputData, config);
-      console.log('Res', res);
+
       localStorage.setItem('token', res.data.token);
       this.setState({
         isAuthenticated: true,
         loading: false,
         token: res.data.token,
       });
+
+      //Loading User
+      this.loadUser();
     } catch (error) {
       localStorage.removeItem('token');
       this.setState({
@@ -45,7 +50,18 @@ class AuthContextProvider extends Component {
 
   //loading User
   loadUser = async () => {
-    //Header Configuration
+    console.log('Loading User ');
+    //Setting token to the headers {"a-auth-token":token }
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    try {
+      const res = await axios.get('/api/auth');
+      this.setState({ user: res.data, isAuthenticated: true });
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
   };
 
   render() {
@@ -55,6 +71,7 @@ class AuthContextProvider extends Component {
           ...this.state,
           register: this.register,
           clearError: this.clearError,
+          loadUser: this.loadUser,
         }}
       >
         {this.props.children}
