@@ -85,6 +85,7 @@ class AuthContextProvider extends Component {
       loading: false,
       user: null,
       error: null,
+      token: null,
     });
   };
 

@@ -11,13 +11,13 @@ function ContactItem({ contact }) {
   //This
   const { setAlert } = useContext(AlertContext);
 
-  const { id, name, email, phone, type } = contact;
+  const { _id, name, email, phone, type } = contact;
 
   // Deleting an Item
   const handleDelete = (e) => {
     console.log('Deleting');
     e.preventDefault();
-    deleteContact(id);
+    deleteContact(_id);
     clearCurrent();
   };
   const handleEdit = () => {

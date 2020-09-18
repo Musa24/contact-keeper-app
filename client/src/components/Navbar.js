@@ -1,11 +1,13 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { ContactsContext } from '../contexts/ContactsContext';
 import getFirstName from '../utility/helper';
 
 function Navbar() {
   const history = useHistory();
   const { isAuthenticated, user, logout } = useContext(AuthContext);
+  const { clearContacts } = useContext(ContactsContext);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -16,8 +18,8 @@ function Navbar() {
   //Logout user
   const handleLogout = (e) => {
     e.preventDefault();
-    console.log(e);
     logout();
+    clearContacts();
   };
 
   const loggedUserLink = (

@@ -17,20 +17,29 @@ class ContactsContextProvider extends Component {
     current: null,
     filtered: null,
     error: null,
-    loading: true,
   };
 
   getContactsFromDB = async () => {
     try {
       const res = await axios.get('/api/contacts');
-      console.log('Musa', res.data);
       this.setState((oldState) => {
         return { contacts: [...oldState.contacts, ...res.data] };
       });
     } catch (error) {
-      console.log(error.response.msg);
-      this.setState({ error: error.response.msg });
+      // console.log(object);
+      // console.log(error.response.msg);
+      // this.setState({ error: error.response.msg });
     }
+  };
+
+  //Clear Contact in State;
+  clearContacts = () => {
+    this.setState({
+      contacts: null,
+      filtered: null,
+      error: null,
+      current: null,
+    });
   };
 
   addContact = async (contact) => {
@@ -45,7 +54,7 @@ class ContactsContextProvider extends Component {
       const res = await axios.post('/api/contacts', contact, config);
       console.log(res.data);
       this.setState((oldState) => {
-        return { contacts: [...oldState.contacts, res.data] };
+        return { contacts: [res.data, ...oldState.contacts] };
       });
     } catch (error) {
       console.log(error.response.msg);
@@ -53,13 +62,21 @@ class ContactsContextProvider extends Component {
     }
   };
 
-  deleteContact = (id) => {
-    this.setState({
-      contacts: this.state.contacts.filter((contact) => contact.id !== id),
-    });
+  deleteContact = async (id) => {
+    //Deleting
+    try {
+      await axios.delete(`/api/contacts/${id}`);
+
+      this.setState({
+        contacts: this.state.contacts.filter((contact) => contact._id !== id),
+      });
+    } catch (error) {
+      console.log(error.response.msg);
+      this.setState({ error: error.response.msg });
+    }
     if (this.state.filtered !== null) {
       this.setState({
-        filtered: this.state.filtered.filter((contact) => contact.id !== id),
+        filtered: this.state.filtered.filter((contact) => contact._id !== id),
       });
     }
   };
@@ -120,6 +137,7 @@ class ContactsContextProvider extends Component {
           filterContact: this.filterContact,
           clearFilter: this.clearFilter,
           getContactsFromDB: this.getContactsFromDB,
+          clearContacts: this.clearContacts,
         }}
       >
         {this.props.children}
