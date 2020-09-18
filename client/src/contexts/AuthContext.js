@@ -78,6 +78,16 @@ class AuthContextProvider extends Component {
     this.setState({ error: null });
   };
 
+  logout = () => {
+    localStorage.removeItem('token');
+    this.setState({
+      isAuthenticated: null,
+      loading: false,
+      user: null,
+      error: null,
+    });
+  };
+
   //loading User
   loadUser = async () => {
     console.log('Loading User ');
@@ -101,6 +111,7 @@ class AuthContextProvider extends Component {
           ...this.state,
           register: this.register,
           login: this.login,
+          logout: this.logout,
           clearError: this.clearError,
           loadUser: this.loadUser,
         }}

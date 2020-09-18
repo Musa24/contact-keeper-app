@@ -1,7 +1,39 @@
-import React from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+import getFirstName from '../utility/helper';
 
 function Navbar() {
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
+
+  //Logout user
+  const handleLogout = () => {
+    logout();
+  };
+
+  const loggedUserLink = (
+    <Fragment>
+      <li>Hello {getFirstName(user?.name)} </li>
+      <li>
+        <a href="#" onClick={handleLogout}>
+          <i className="fas fa-sign-out-alt "></i>
+          <span className="hide-sm">Logout</span>
+        </a>
+      </li>
+    </Fragment>
+  );
+
+  const guestUserLink = (
+    <Fragment>
+      <li>
+        <Link to="/register">Register</Link>
+      </li>
+      <li>
+        <Link to="/login">login</Link>
+      </li>
+    </Fragment>
+  );
+
   return (
     <div className="navbar bg-primary">
       <h1>
@@ -9,20 +41,9 @@ function Navbar() {
         <Link to="/">Contact Keeper</Link>
       </h1>
       <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
+        {isAuthenticated ? loggedUserLink : guestUserLink}
         {/* <li>
-          <Link to="/logout">Logout</Link>
+          <Link to="/about">About</Link>
         </li> */}
       </ul>
     </div>
