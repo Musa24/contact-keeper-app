@@ -17,6 +17,20 @@ class ContactsContextProvider extends Component {
     current: null,
     filtered: null,
     error: null,
+    loading: true,
+  };
+
+  getContactsFromDB = async () => {
+    try {
+      const res = await axios.get('/api/contacts');
+      console.log('Musa', res.data);
+      this.setState((oldState) => {
+        return { contacts: [...oldState.contacts, ...res.data] };
+      });
+    } catch (error) {
+      console.log(error.response.msg);
+      this.setState({ error: error.response.msg });
+    }
   };
 
   addContact = async (contact) => {
@@ -27,18 +41,16 @@ class ContactsContextProvider extends Component {
         'Content-Type': 'application/json',
       },
     };
-
     try {
       const res = await axios.post('/api/contacts', contact, config);
-      console.log(res);
+      console.log(res.data);
+      this.setState((oldState) => {
+        return { contacts: [...oldState.contacts, res.data] };
+      });
     } catch (error) {
       console.log(error.response.msg);
       this.setState({ error: error.response.msg });
     }
-
-    this.setState((oldState) => {
-      return { contacts: [...oldState.contacts, contact] };
-    });
   };
 
   deleteContact = (id) => {
@@ -107,6 +119,7 @@ class ContactsContextProvider extends Component {
           updateContact: this.updateContact,
           filterContact: this.filterContact,
           clearFilter: this.clearFilter,
+          getContactsFromDB: this.getContactsFromDB,
         }}
       >
         {this.props.children}
