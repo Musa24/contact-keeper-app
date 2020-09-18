@@ -1,38 +1,41 @@
 import React, { createContext, Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 export const ContactsContext = createContext();
 
 class ContactsContextProvider extends Component {
   state = {
     contacts: [
-      {
-        id: 1,
-        name: 'Musa Salumu',
-        email: 'test@gmail.com',
-        phone: 12232434,
-        type: 'personal',
-      },
-      {
-        id: 2,
-        name: 'Musalumu',
-        email: 'test1@gmail.com',
-        phone: 22212121,
-        type: 'professional',
-      },
-      {
-        id: 3,
-        name: 'Muhozya',
-        email: 'test2@gmail.com',
-        phone: 122344,
-        type: 'personal',
-      },
+      // {
+      //   id: 1,
+      //   name: 'Musa Salumu',
+      //   email: 'test@gmail.com',
+      //   phone: 12232434,
+      //   type: 'personal',
+      // },
     ],
     current: null,
     filtered: null,
+    error: null,
   };
 
-  addContact = (contact) => {
-    contact.id = uuidv4();
+  addContact = async (contact) => {
+    // contact.id = uuidv4();
+    // Header config
+    const config = {
+      Headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post('/api/contacts', contact, config);
+      console.log(res);
+    } catch (error) {
+      console.log(error.response.msg);
+      this.setState({ error: error.response.msg });
+    }
+
     this.setState((oldState) => {
       return { contacts: [...oldState.contacts, contact] };
     });
