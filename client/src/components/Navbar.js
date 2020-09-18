@@ -1,13 +1,22 @@
-import React, { Fragment, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useContext, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import getFirstName from '../utility/helper';
 
 function Navbar() {
+  const history = useHistory();
   const { isAuthenticated, user, logout } = useContext(AuthContext);
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      history.push('/login');
+    }
+  });
+
   //Logout user
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
+    console.log(e);
     logout();
   };
 
@@ -15,7 +24,7 @@ function Navbar() {
     <Fragment>
       <li>Hello {getFirstName(user?.name)} </li>
       <li>
-        <a href="#" onClick={handleLogout}>
+        <a href="/" onClick={handleLogout}>
           <i className="fas fa-sign-out-alt "></i>
           <span className="hide-sm">Logout</span>
         </a>
