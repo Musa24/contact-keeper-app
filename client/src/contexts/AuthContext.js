@@ -43,6 +43,36 @@ class AuthContextProvider extends Component {
       });
     }
   };
+  //Login User
+  login = async (formInputData) => {
+    //Header configuration
+    const config = {
+      Headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    //loging
+    try {
+      const res = await axios.post('/api/auth', formInputData, config);
+
+      localStorage.setItem('token', res.data.token);
+      this.setState({
+        isAuthenticated: true,
+        loading: false,
+        token: res.data.token,
+      });
+      //Loading User
+      this.loadUser();
+    } catch (error) {
+      localStorage.removeItem('token');
+      this.setState({
+        isAuthenticated: null,
+        loading: false,
+        user: null,
+        error: error.response.data.msg,
+      });
+    }
+  };
   //Clear Register Error
   clearError = () => {
     this.setState({ error: null });
@@ -70,6 +100,7 @@ class AuthContextProvider extends Component {
         value={{
           ...this.state,
           register: this.register,
+          login: this.login,
           clearError: this.clearError,
           loadUser: this.loadUser,
         }}

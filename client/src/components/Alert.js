@@ -3,7 +3,6 @@ import { AlertContext } from '../contexts/AlertContext';
 
 function Alert() {
   const { alerts } = useContext(AlertContext);
-  console.log('Alert', alerts);
   return (
     <>
       {alerts.length > 0 &&

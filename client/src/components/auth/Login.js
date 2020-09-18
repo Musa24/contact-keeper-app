@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AlertContext } from '../../contexts/AlertContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 function Login() {
+  const history = useHistory();
+  const { setAlert } = useContext(AlertContext);
+  const { login, isAuthenticated, error, clearError } = useContext(AuthContext);
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
 
-  const { email, password, password1 } = user;
+  const { email, password } = user;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/');
+    }
+
+    if (error === 'Invalid Credentials') {
+      setAlert(error, 'danger');
+      clearError();
+    }
+  });
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -14,7 +31,10 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
+    login({
+      email,
+      password,
+    });
   };
 
   return (
