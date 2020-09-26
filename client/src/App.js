@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 
 import './App.css';
 import Navbar from './components/Navbar';
@@ -8,7 +8,7 @@ import Home from './components/Home';
 import About from './components/About';
 import ContactsContextProvider from './contexts/ContactsContext';
 import Contacts from './contacts/Contacts';
-import AuthContextProvider from './contexts/AuthContext';
+import AuthContextProvider, { AuthContext } from './contexts/AuthContext';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import AlertContextProvider from './contexts/AlertContext';
@@ -21,31 +21,31 @@ import PrivateRoute from './components/routing/PrivateRoute';
 // }
 
 function App() {
+  const { loadUser, isAuthenticated } = useContext(AuthContext);
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
   return (
-    <AuthContextProvider>
-      <ContactsContextProvider>
-        <AlertContextProvider>
-          <Router>
-            <Fragment>
-              <Navbar />
-              <div className="container">
-                <Alert />
-                <Switch>
-                  <PrivateRoute exact path="/" component={Home} />
-                  <Route exact path="/about" component={About} />
-                  <Route path="/register" exact>
-                    <Register />
-                  </Route>
-                  <Route path="/login" exact>
-                    <Login />
-                  </Route>
-                </Switch>
-              </div>
-            </Fragment>
-          </Router>
-        </AlertContextProvider>
-      </ContactsContextProvider>
-    </AuthContextProvider>
+    <Router>
+      <Fragment>
+        <Navbar />
+        <div className="container">
+          <Alert />
+          <Switch>
+            <PrivateRoute exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+            <Route path="/register" exact>
+              <Register />
+            </Route>
+            <Route path="/login" exact>
+              <Login />
+            </Route>
+          </Switch>
+        </div>
+      </Fragment>
+    </Router>
   );
 }
 

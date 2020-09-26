@@ -6,12 +6,12 @@ import { AuthContext } from '../contexts/AuthContext';
 import Register from './auth/Register';
 
 function Home() {
-  const { loadUser } = useContext(AuthContext);
+  const { loadUser, isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
     loadUser();
     // eslint-disable-next-line
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <div className="grid-2">

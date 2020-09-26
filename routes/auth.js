@@ -44,12 +44,14 @@ router.post(
     }
 
     const { email, password } = req.body;
+    console.log(email);
 
     try {
       let user = await User.findOne({ email });
-
+      console.log('BACKEND', user);
       // Check if the user Exit
       if (!user) {
+        console.log('Not user');
         return status(400).json({ msg: 'Invalid Credentials' });
       }
       // Compare the User Password with hashed password
@@ -76,8 +78,7 @@ router.post(
         }
       );
     } catch (error) {
-      console.log('err from Backed', error);
-
+      console.log('ERROR from Backed', error);
       res.status(500).send('Server Error');
     }
   }

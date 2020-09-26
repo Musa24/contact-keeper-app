@@ -22,7 +22,6 @@ function ContactItem({ contact }) {
   };
   const handleEdit = () => {
     setCurrent(contact);
-    setAlert('This is message', 'light', 5000);
   };
   return (
     <div className="card bg-light">

@@ -5,15 +5,7 @@ export const ContactsContext = createContext();
 
 class ContactsContextProvider extends Component {
   state = {
-    contacts: [
-      // {
-      //   id: 1,
-      //   name: 'Musa Salumu',
-      //   email: 'test@gmail.com',
-      //   phone: 12232434,
-      //   type: 'personal',
-      // },
-    ],
+    contacts: [],
     current: null,
     filtered: null,
     error: null,
@@ -52,7 +44,7 @@ class ContactsContextProvider extends Component {
     };
     try {
       const res = await axios.post('/api/contacts', contact, config);
-      console.log(res.data);
+
       this.setState((oldState) => {
         return { contacts: [res.data, ...oldState.contacts] };
       });
@@ -71,8 +63,8 @@ class ContactsContextProvider extends Component {
         contacts: this.state.contacts.filter((contact) => contact._id !== id),
       });
     } catch (error) {
-      console.log(error.response.msg);
-      this.setState({ error: error.response.msg });
+      console.log(error);
+      // this.setState({ error: error.response.msg });
     }
     if (this.state.filtered !== null) {
       this.setState({
@@ -87,22 +79,49 @@ class ContactsContextProvider extends Component {
     });
   };
 
-  updateContact = (contact) => {
+  updateContact = async (contact) => {
     let updatedContact = this.state.contacts.map((oldContact) =>
-      oldContact.id === contact.id ? contact : oldContact
+      oldContact._id === contact._id ? contact : oldContact
     );
     let updatedFilteredContact = this.state.contacts.map((oldContact) =>
-      oldContact.id === contact.id ? contact : oldContact
+      oldContact._id === contact._id ? contact : oldContact
     );
-    this.setState(
-      {
-        contacts: updatedContact,
-        filtered: updatedFilteredContact,
+
+    //Updating
+
+    const config = {
+      Headers: {
+        'Content-Type': 'application/json',
       },
-      () => {
-        this.clearCurrent();
-      }
-    );
+    };
+    try {
+      const res = await axios.put(
+        `/api/contacts/${contact._id}`,
+        contact,
+        config
+      );
+      //Loading data
+      this.getContactsFromDB();
+      this.clearCurrent();
+      // this.clearContacts();
+      // this.setState({
+      //   // contacts: res.data,
+      //   // filtered: updatedFilteredContact,
+      // });
+    } catch (error) {
+      // console.log(error.response.msg);
+      // this.setState({ error: error.response.msg });
+    }
+
+    // this.setState(
+    //   {
+    //     contacts: updatedContact,
+    //     filtered: updatedFilteredContact,
+    //   },
+    //   () => {
+    //     this.clearCurrent();
+    //   }
+    // );
   };
 
   clearCurrent = () => {

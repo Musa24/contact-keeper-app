@@ -95,6 +95,7 @@ class AuthContextProvider extends Component {
     //Setting token to the headers {"a-auth-token":token }
     if (localStorage.token) {
       setAuthToken(localStorage.token);
+      console.log('There is token');
     }
 
     try {
